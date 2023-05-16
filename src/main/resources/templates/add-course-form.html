@@ -1,0 +1,71 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<title>Add Course</title>
+		
+		<link rel="stylesheet" 
+			href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" 
+			integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" 
+			crossorigin="anonymous" />
+	</head>
+	<body>
+		
+		<div class="container">
+		
+			<h3>Add New Course</h3>
+			<hr/>
+			
+			<form th:action="@{/saveCourse}" th:object="${course}" method="POST">
+
+				<input type="text" th:field="*{courseId}" class="form-control col-4 mb-4" placeholder="Enter Course Id" />
+				
+				<input type="text" th:field="*{courseName}" class="form-control col-4 mb-4" placeholder="Enter Course Name" />
+				
+				<input type="text" th:field="*{credits}" class="form-control col-4 mb-4" placeholder="Enter Credits Amount" />
+
+				<button type="submit" class="btn btn-primary col-2">Save</button>
+				<input type="hidden" th:field="*{courseId}" />
+				
+			</form>
+			<hr/>
+			<a th:href="@{/students}">Back to list</a>
+		</div>
+		<br/><br/>
+		<div class="container">
+			<h3>List Courses</h3>
+			<table class="table table-bordered table-striped" id="courseTable">
+				<thead>
+				<tr>
+					<th>Course ID</th>
+					<th>Course Name</th>
+					<th>Credits</th>
+					<th>Actions</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr th:each="course: ${courses}">
+					<td th:text="${course.courseId}" />
+					<td th:text="${course.courseName}" />
+					<td th:text="${course.credits}" />
+					<td>
+						<a th:href="@{/showUpdateCourseForm(courseId=${course.courseId})}" class="btn btn-info">Update</a>
+						<a th:href="@{/deleteCourse(courseId=${course.courseId})}" class="btn btn-danger ml-2">Delete</a>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>
+<script>
+		$(document).ready(function() {
+			$("#courseTable").DataTable({
+					'aoColumnDefs': [{
+        			'bSortable': false,
+        			'aTargets': [-1] /* 1st one, start by the right */
+    			}]
+			});
+		})
+</script>
+	</body>
+</html>

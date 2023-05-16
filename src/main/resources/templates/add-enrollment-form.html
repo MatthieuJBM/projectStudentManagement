@@ -1,0 +1,73 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<title>Add Enrollment</title>
+		
+		<link rel="stylesheet" 
+			href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" 
+			integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" 
+			crossorigin="anonymous" />
+	</head>
+	<body>
+		
+		<div class="container">
+		
+			<h3>Add New Enrollment</h3>
+			<hr/>
+
+			<form th:action="@{/saveEnrollment}" th:object="${enrollment}" method="POST">
+				<select name="studentId" class="form-control col-4 mb-4">
+					<option value="">-- Select a student --</option>
+					<option th:each="student : ${students}" th:value="${student.id}" th:text="${student.firstName} + ' ' + ${student.lastName}"></option>
+				</select>
+
+				<select name="courseId" class="form-control col-4 mb-4">
+					<option value="">-- Select a course --</option>
+					<option th:each="course : ${courses}" th:value="${course.courseId}" th:text="${course.courseName}"></option>
+				</select>
+
+				<input type="text" name="grade" class="form-control col-4 mb-4" placeholder="Enter The Grade" />
+
+				<button type="submit" class="btn btn-primary col-2">Save</button>
+				<input type="hidden" th:field="*{id}" />
+			</form>
+
+			<hr/>
+			<a th:href="@{/students}">Back to list</a>
+		</div>
+		<br/><br/>
+		<div class="container">
+			<h3>List Enrollments</h3>
+			<table class="table table-bordered table-striped" id="enrollmentTable">
+				<thead>
+				<tr>
+					<th>Enrollment ID</th>
+					<th>Student</th>
+					<th>Course</th>
+					<th>Grade</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr th:each="enrollment: ${enrollments}">
+					<td th:text="${enrollment.id}" />
+					<td th:text="${enrollment.student.firstName} + ' ' + ${enrollment.student.lastName}" />
+					<td th:text="${enrollment.course.courseName}" />
+					<td th:text="${enrollment.grade}" />
+				</tr>
+				</tbody>
+			</table>
+		</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>
+<script>
+		$(document).ready(function() {
+			$("#enrollmentTable").DataTable({
+					'aoColumnDefs': [{
+        			'bSortable': false,
+        			'aTargets': [-1] /* 1st one, start by the right */
+    			}]
+			});
+		})
+</script>
+	</body>
+</html>
