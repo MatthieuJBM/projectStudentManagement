@@ -16,16 +16,22 @@
 			<hr/>
 			
 			<form th:action="@{/saveStudent}" th:object="${student}" method="POST">
-				
+
+				<small class="text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"}></small>
 				<input type="text" th:field="*{firstName}" class="form-control col-4 mb-4" placeholder="Enter First Name" />
-				
+
+				<small class="text-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></small>
 				<input type="text" th:field="*{lastName}" class="form-control col-4 mb-4" placeholder="Enter Last Name" />
-				
+
+				<small class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
 				<input type="text" th:field="*{email}" class="form-control col-4 mb-4" placeholder="Enter E-Mail" />
 
+				<small class="text-danger" th:if="${#fields.hasErrors('enrollmentDate')}" th:errors="*{enrollmentDate}">Invalid date format. Please use the format yyyy-mm-dd</small>
 				<input type="text" th:field="*{enrollmentDate}" class="form-control col-4 mb-4" placeholder="Enter the date yyyy-mm-dd" />
+
 				
 				<button type="submit" class="btn btn-primary col-2">Save</button>
+				<small class="text-danger" th:if="${#fields.hasGlobalErrors()}" th:errors="*{__global__}"></small>
 				<input type="hidden" th:field="*{id}" />
 				
 			</form>

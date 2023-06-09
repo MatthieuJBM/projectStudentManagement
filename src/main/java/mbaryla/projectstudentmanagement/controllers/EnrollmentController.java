@@ -53,22 +53,9 @@ public class EnrollmentController {
         enrollment.setCourse(course);
         enrollment.setGrade(Enrollment.Grade.valueOf(String.valueOf(grade)));
         student.getEnrollments().add(enrollment);
-        //studentRepository.save(student);
         enrollmentRepository.save(enrollment);
 
         return "redirect:/addEnrollmentForm";
     }
-
-
-
-
-    /*
-    @PostMapping("/saveEnrollment")
-    public String saveEnrollment(@RequestParam Long studentId, Model model) {
-        enrollmentRepository.save(enrollment);
-        student.getEnrollments().add(enrollment);
-
-        return "redirect:/addEnrollmentForm";
-    }
-    */
+    
 }

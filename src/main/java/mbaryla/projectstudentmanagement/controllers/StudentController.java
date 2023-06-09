@@ -1,10 +1,13 @@
 package mbaryla.projectstudentmanagement.controllers;
 
+import jakarta.validation.Valid;
 import mbaryla.projectstudentmanagement.data.StudentRepository;
 import mbaryla.projectstudentmanagement.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,10 +36,28 @@ public class StudentController {
         return "add-student-form";
     }
 
+    /*
     @PostMapping("/saveStudent")
-    public String saveStudent(@ModelAttribute Student student){
+    public String saveStudent(@Valid Student students, Errors errors, @ModelAttribute Student student){
+        if(errors.hasErrors()){
+            return "add-student-form";
+        }
+
         studentRepository.save(student);
         return "redirect:/students";
+    }
+    */
+
+    @PostMapping("/saveStudent")
+    public String saveStudent(@Valid @ModelAttribute("student") Student student,
+                              BindingResult bindingResult,
+                              Model model){
+        if(bindingResult.hasErrors()) {
+            return "add-student-form";
+        }
+        studentRepository.save(student);
+        return "redirect:/students";
+
     }
 
     @GetMapping("/showUpdateStudentForm")
@@ -51,21 +72,6 @@ public class StudentController {
         studentRepository.deleteById(studentId);
         return "redirect:/students";
     }
-
-    /*
-    @GetMapping("/addEnrollment")
-    public String addEnrollment(@RequestParam Long studentId, Model model) {
-        Student student = studentRepository.findById(studentId).get();
-        Enrollment enrollment = new Enrollment();
-        model.addAttribute("student", student);
-        model.addAttribute("enrollment", enrollment);
-        return "add-enrollment-form";
-    }
-    */
-
-
-
-
 
 
 }

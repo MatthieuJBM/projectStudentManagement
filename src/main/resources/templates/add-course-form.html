@@ -17,13 +17,17 @@
 			
 			<form th:action="@{/saveCourse}" th:object="${course}" method="POST">
 
+				<small class="text-danger" th:if="${#fields.hasErrors('courseId')}" th:errors="*{courseId}"></small>
 				<input type="text" th:field="*{courseId}" class="form-control col-4 mb-4" placeholder="Enter Course Id" />
-				
+
+				<small class="text-danger" th:if="${#fields.hasErrors('courseName')}" th:errors="*{courseName}"></small>
 				<input type="text" th:field="*{courseName}" class="form-control col-4 mb-4" placeholder="Enter Course Name" />
-				
+
+				<small class="text-danger" th:if="${#fields.hasErrors('credits')}" th:errors="*{credits}"></small>
 				<input type="text" th:field="*{credits}" class="form-control col-4 mb-4" placeholder="Enter Credits Amount" />
 
 				<button type="submit" class="btn btn-primary col-2">Save</button>
+				<small class="text-danger" th:if="${#fields.hasGlobalErrors()}" th:errors="*{__global__}"></small>
 				<input type="hidden" th:field="*{courseId}" />
 				
 			</form>
